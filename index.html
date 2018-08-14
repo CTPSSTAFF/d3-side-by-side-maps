@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<head lang="en">
+<meta charset="utf-8">
+<title>Side-by-Side D3 MPO Town Maps</title>
+<link rel="stylesheet" href="app.css"/>
+<!--- <script src="../../libs/jquery/jquery-1.11.1/jquery-1.11.1.min.js"></script> -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/1.12.4/jquery.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/d3/3.5.17/d3.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/topojson/1.6.20/topojson.js"></script>
+<script src="app.js"></script>
+</head>
+<body>
+<h2>Side-by-Side D3 MPO Town Maps</h2>
+<input type="button" id="showhide" value="Hide description"></input>
+<br/>
+<div id="blurb">
+<h3>Data source: TopoJSON</h3>
+<ol>
+<li>Spatial data loaded from TopoSON file.</li>
+<ul>
+<li>Derived from a clipped version of MassGIS TOWNSURVEY_POLYM layer.</li>
+<li>GeoJSON first generated in ArcMap using Calvin Metcalf's 
+    <a href="http://calvinmetcalf.com/post/53837935250/guide-to-esri-to-open" target="_blank">esri-to-open</a> tool.</li>
+<li>GeoJSON then converted to TopoJSON using <a href="http://geojson.io" target="_blank">geojson.io</a> web service.</li>
+<li>TopoJSON manipulated using Mike Bostock's <a href="https://github.com/mbostock/topojson/wiki">topojson.js</a> library.</li>
+</ul>
+<li>Maps are symbolized by FOURCOLOR attribute in TopoJSON file, using 2 different color palettes.</li>
+<li>Notice how much faster it loads than the version using a GeoJSON data source - the TopoJSON is 1/10 the size of the GeoJSON!</li>
+<li>Includes simple D3 on-hover &quot;title&quot; tooltip for each town. </li>
+<li>Pan and zoom (from 0.2x to 5x) synchronized between the 2 maps.</li>
+</ol>
+</div>
+<script>
+	$(document).ready(function() {
+		CTPS.demoApp.init();	
+	});	
+</script>
+<div id="map_container">
+	<div id="map1"></div>
+	<div id="map2"></div>
+</div>
+</body>
+</html>
