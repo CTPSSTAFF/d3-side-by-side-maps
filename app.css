@@ -1,0 +1,28 @@
+* {
+	font-family:"Trebuchet MS","sans-serif";
+}
+
+.italics {
+	font-style: italic;
+}
+
+#showhide {
+	margin-bottom: 25px;
+}
+
+#map_container {
+	height: 1025px;
+	width:  1120px;
+}
+
+#map1 {
+	height: 510px;
+	width:  560px;
+	float:  left;
+}
+
+#map2 {
+	height: 510px;
+	width:  560px;
+	float:  right;
+}
