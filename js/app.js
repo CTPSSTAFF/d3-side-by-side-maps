@@ -1,7 +1,5 @@
-var CTPS = {};
-CTPS.demoApp = {};
 
-CTPS.demoApp.init = function() {
+function initialize() {
 	$('#showhide').click(function(e) {
 		if (this.value === 'Show description') {
 			$('#blurb').show();
@@ -11,14 +9,11 @@ CTPS.demoApp.init = function() {
 			this.value = 'Show description';		
 		}
 	});
-	d3.json("JSON/boston_region_mpo_towns.topo.json", 
-			function(error, data) { 
-				CTPS.demoApp.generateViz(data); 
-			});
-} // CTPS.demoApp.init() 
+	d3.json("json/ctps_brmpo_towns.geo.json", (data) => { generateViz(data); });
+} // initialize()
 
-CTPS.demoApp.generateViz = function(topoJsonData) {	
-	var width = 550, 
+function generateViz(geoJsonData) {	
+	var width  = 550, 
 		height = 500;
 		
 	// Define Zoom Function Event Listener
@@ -55,36 +50,36 @@ CTPS.demoApp.generateViz = function(topoJsonData) {
 		
 	var geoPath = d3.geo.path().projection(projection);
 		
-	// Create Boston Region MPO map #1 with SVG paths for individual towns.
+	// Create Boston Region MPO map #1 with SVG paths for individual towns,
 	// symbolized by FOURCOLOR code.
 	var mpoSVG1 = svgContainer1.selectAll("path")
-		.data(topojson.feature(topoJsonData, topoJsonData.objects.collection).features)
+		.data(geoJsonData.features)
 		.enter()
 		.append("path")
-		.attr("id", function(d, i) { return d.properties.TOWN_ID; })
-		.attr("d", function(d, i) { return geoPath(d); })
-		.style("fill", function(d, i) {
-				var palette = [ "#d7191c", "#fdae61", "#abd9e9", "#2c7bb6" ];
-				var fc = d.properties.FOURCOLOR;
-				return (fc >= 1 && fc <= 4) ? palette[fc-1] : "#ffffff";
-			})
-		.append("title")
-			.text(function(d, i) { return "Map #1: " + d.properties.TOWN });
-			
-	// Create Boston Region MPO map #2 with SVG paths for individual towns.
+			.attr("id", function(d, i) { return d.properties.town_id; })
+			.attr("d", function(d, i) { return geoPath(d); })
+			.style("fill", function(d, i) {
+							var palette = [ "#d7191c", "#fdae61", "#abd9e9", "#2c7bb6" ];
+							var fc = d.properties.fourcolor;
+							return (fc >= 1 && fc <= 4) ? palette[fc-1] : "#ffffff";
+						})
+			.append("title")
+				.text(function(d, i) { return "Map #1: " + d.properties.town });
+	
+	// Create Boston Region MPO map #2 with SVG paths for individual towns,
 	// symbolized by FOURCOLOR code using a different colour palette.	
 	var mpoSVG2 = svgContainer2.selectAll("path")
-		.data(topojson.feature(topoJsonData, topoJsonData.objects.collection).features)
+		.data(geoJsonData.features)
 		.enter()
 		.append("path")
-		.attr("id", function(d, i) { return d.properties.TOWN_ID; })
-		.attr("d", function(d, i) { return geoPath(d); })
-		.style("fill", function(d, i) {
-				var palette = [ "#a6611a", "#dfc27d", "#80cdc1", "#018571" ];
-				var fc = d.properties.FOURCOLOR;
-				return (fc >= 1 && fc <= 4) ? palette[fc-1] : "#ffffff";
-			})
-		.append("title")
-			.text(function(d, i) { return "Map #2: " + d.properties.TOWN });		
+			.attr("id", function(d, i) { return d.properties.TOWN_ID; })
+			.attr("d", function(d, i) { return geoPath(d); })
+			.style("fill", function(d, i) {
+							var palette = [ "#a6611a", "#dfc27d", "#80cdc1", "#018571" ];
+							var fc = d.properties.fourcolor;
+							return (fc >= 1 && fc <= 4) ? palette[fc-1] : "#ffffff";
+						})
+			.append("title")
+				.text(function(d, i) { return "Map #2: " + d.properties.town });		
 			
-} // CTPS.demoApp.generateViz()
+} // generateViz
